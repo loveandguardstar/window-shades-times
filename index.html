@@ -1,0 +1,257 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>无标题文档</title>
+    <style>
+        .clock_wrapper {
+            margin: 50px auto;
+            width : 600px;
+            height : 86px;
+            /*border : 1px solid red;*/
+        }
+        .clock_wrapper > div {
+            display: inline-block;
+            width : 61px;
+            height : 86px;
+            overflow : hidden;
+            position: relative;
+        }
+        .clock_wrapper > div > div {
+            position: absolute;
+            top: 0;
+        }
+        .clock_split,
+        .clock_wrapper > div > div >div {
+            width : 61px;
+            height : 86px;
+            background-size : 100% 100%;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="clock_wrapper">
+    <div class="clock_hour_tens_wrapper">
+        <div class="clock_hour_tens_cards">
+            <div class="clock_hour_tens"></div>
+            <div class="clock_hour_tens"></div>
+            <div class="clock_hour_tens"></div>
+        </div>
+    </div>
+
+    <div class="clock_hour_bits_wrapper">
+        <div class="clock_hour_bits_cards">
+            <div class="clock_hour_bits"></div>
+            <div class="clock_hour_bits"></div>
+            <div class="clock_hour_bits"></div>
+            <div class="clock_hour_bits"></div>
+            <div class="clock_hour_bits"></div>
+            <div class="clock_hour_bits"></div>
+            <div class="clock_hour_bits"></div>
+            <div class="clock_hour_bits"></div>
+            <div class="clock_hour_bits"></div>
+            <div class="clock_hour_bits"></div>
+        </div>
+    </div>
+
+    <div class="clock_split"></div>
+
+    <div class="clock_minute_tens_wrapper">
+        <div class="clock_minute_tens_cards">
+            <div class="clock_minute_tens"></div>
+            <div class="clock_minute_tens"></div>
+            <div class="clock_minute_tens"></div>
+            <div class="clock_minute_tens"></div>
+            <div class="clock_minute_tens"></div>
+            <div class="clock_minute_tens"></div>
+        </div>
+
+    </div>
+
+    <div class="clock_minute_bits_wrapper">
+        <div class="clock_minute_bits_cards">
+            <div class="clock_minute_bits"></div>
+            <div class="clock_minute_bits"></div>
+            <div class="clock_minute_bits"></div>
+            <div class="clock_minute_bits"></div>
+            <div class="clock_minute_bits"></div>
+            <div class="clock_minute_bits"></div>
+            <div class="clock_minute_bits"></div>
+            <div class="clock_minute_bits"></div>
+            <div class="clock_minute_bits"></div>
+            <div class="clock_minute_bits"></div>
+        </div>
+    </div>
+
+    <div class="clock_split"></div>
+
+    <div class="clock_second_tens_wrapper">
+        <div class="clock_second_tens_cards">
+            <div class="clock_second_tens"></div>
+            <div class="clock_second_tens"></div>
+            <div class="clock_second_tens"></div>
+            <div class="clock_second_tens"></div>
+            <div class="clock_second_tens"></div>
+            <div class="clock_second_tens"></div>
+        </div>
+    </div>
+
+    <div class="clock_second_bits_wrapper">
+        <div class="clock_second_bits_cards">
+            <div class="clock_second_bits"></div>
+            <div class="clock_second_bits"></div>
+            <div class="clock_second_bits"></div>
+            <div class="clock_second_bits"></div>
+            <div class="clock_second_bits"></div>
+            <div class="clock_second_bits"></div>
+            <div class="clock_second_bits"></div>
+            <div class="clock_second_bits"></div>
+            <div class="clock_second_bits"></div>
+            <div class="clock_second_bits"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var $ = function (cls) {
+        return document.getElementsByClassName(cls);
+    };
+    var domHourTens = $('clock_hour_tens');
+    var domHourBits = $('clock_hour_bits');
+
+    var splits = $('clock_split');
+
+    var domMinuteTens = $('clock_minute_tens');
+    var domMinuteBits = $('clock_minute_bits');
+
+    var domSecondTens = $('clock_second_tens');
+    var domSecondBits = $('clock_second_bits');
+
+    for (var i=0;i<10;i++) {
+        if (i<2) {
+            splits[i].style.backgroundImage = 'url(./img/colon.JPG)';
+        }
+        if (i<3) {
+            domHourTens[i].style.backgroundImage = 'url(./img/' + i + '.JPG)';
+        }
+        if (i<6) {
+            domMinuteTens[i].style.backgroundImage = domSecondTens[i].style.backgroundImage = 'url(./img/' + i + '.JPG)';
+        }
+        if (i<10) {
+            domMinuteBits[i].style.backgroundImage = domSecondBits[i].style.backgroundImage = 'url(./img/' + i + '.JPG)';
+            domHourBits[i].style.backgroundImage = 'url(./img/' + i + '.JPG)';
+        }
+
+    }
+
+    // 获取时间，初始化电子钟
+    var dateString = (new Date()).toString();
+    var indexStart = dateString.indexOf(':')-2;
+    var timeArr = dateString.substring(indexStart,indexStart+8).split('');
+    var hourTens = Number(timeArr[0]);
+    var hourBits = Number(timeArr[1]);
+    var hourNum = Number(timeArr[0] + timeArr[1]);
+    var minuteTens = Number(timeArr[3]);
+    var minuteBits = Number(timeArr[4]);
+    var minuteNum = Number(timeArr[3] + timeArr[4]);
+    var secondTens = Number(timeArr[6]);
+    var secondBits = Number(timeArr[7]);
+    var secondNum = Number(timeArr[6] + timeArr[7]);
+    console.log(secondBits);
+    var init = function (opt) {
+        /**
+         * opt :{
+			 * 	domCardsArr : [$('')],
+			 *  numArr: []
+			 * }
+         *
+         */
+        for (var h=0;h<opt.domCardsArr.length;h++) {
+            for (var i=0;i<opt.numArr[h];i++) {
+
+                opt.domCardsArr[h].appendChild(opt.domCardsArr[h].children[0]);
+            }
+        }
+
+    };
+    init({
+        domCardsArr : [ $('clock_hour_tens_cards')[0], $('clock_hour_bits_cards')[0],
+            $('clock_minute_tens_cards')[0], $('clock_minute_bits_cards')[0],
+            $('clock_second_tens_cards')[0], $('clock_second_bits_cards')[0]
+        ],
+        numArr: [hourTens,hourBits, minuteTens, minuteBits, secondTens, secondBits ]
+    });
+
+    // 电子钟计时，
+    var scrollCard = function (domCards) {
+        domCards.timer = setInterval(function () {
+            var topStart = parseInt(getComputedStyle(domCards,null).top);
+            if (topStart > -86) {
+                domCards.style.top = topStart - 8 + 'px';
+            }
+            else {
+                domCards.style.top = '-86px';
+                clearInterval(domCards.timer);
+                domCards.appendChild(domCards.children[0]);
+                domCards.style.top = '0px';
+            }
+        },40);
+    };
+
+    var clockRunning = function () {
+        scrollCard($('clock_second_bits_cards')[0]);
+        if (secondBits === 9) {
+            secondBits = 0;
+            scrollCard($('clock_second_tens_cards')[0]);
+            secondTens === 5 ? secondTens = 0 : secondTens++;
+        }
+        else {
+            secondBits++;
+        }
+
+        if (secondTens === 0 && secondBits === 0) {
+            scrollCard($('clock_minute_bits_cards')[0]);
+            if (minuteBits === 9) {
+                minuteBits = 0;
+                scrollCard($('clock_minute_tens_cards')[0]);
+                minuteTens === 5 ? minuteTens = 0 : minuteTens++;
+            }
+            else {
+                minuteBits++;
+            }
+        }
+
+        if (minuteTens === 0 && minuteBits === 0 && secondTens === 0 && secondBits === 0) {
+            scrollCard($('clock_hour_bits_cards')[0]);
+            if (hourBits === 9 && hourTens < 2) {
+                hourBits = 0;
+                scrollCard($('clock_hour_tens_cards')[0]);
+                hourTens++;
+            }
+            else{
+                if(hourTens === 2 && hourBits === 3) {
+//                    var aChange = $('clock_hour_bits_cards')[8];
+//                    $('clock_hour_bits_cards')[0].replaceChild(domHourBits[8], domHourBits[2]);
+                    var add1 = document.createElement("div");
+                    add1.style.backgroundImage = 'url(./img/0.JPG)';
+                    $('clock_hour_bits_cards')[0].insertBefore(add1, domHourBits[1]);
+                    scrollCard($('clock_hour_tens_cards')[0]);
+                    $('clock_hour_bits_cards')[0].removeChild(domHourBits[8]);
+                    for(var i = 0; i < 7; i ++) {
+                        $('clock_hour_bits_cards')[0].appendChild($('clock_hour_bits_cards')[0].children[1])
+                    }
+                    hourTens++;
+                }
+            }
+        }
+    };
+
+    setInterval(clockRunning,1000);
+
+</script>
+
+
+</body>
+</html>
